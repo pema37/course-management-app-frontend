@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-course-list',
-  standalone: true,           // Mark the component as standalone
-  imports: [CommonModule],     // Import CommonModule for common directives
+  standalone: true,           
+  imports: [CommonModule, RouterModule],    
   templateUrl: './course-list.component.html',
-  styleUrls: ['./course-list.component.scss']  // Corrected from 'styleUrl' to 'styleUrls'
+  styleUrls: ['./course-list.component.scss']  
 })
 export class CourseListComponent {
   // Component logic goes here
