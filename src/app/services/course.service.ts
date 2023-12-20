@@ -6,7 +6,9 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CourseService {
   private baseURL = 'https://course-management-app-backend.onrender.com';
+
   constructor(private http: HttpClient) {}
+  
   getCourses() {
     return this.http.get(`${this.baseURL}/api/course`);
   }
