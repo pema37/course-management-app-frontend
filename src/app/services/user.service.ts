@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpClient,HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { throwError } from 'rxjs';
@@ -13,10 +13,22 @@ import { throwError } from 'rxjs';
 
 export class UserService {
 
-  private baseURL = 'https://course-mgt-app.herokuapp.com' 
+  private baseURL = 'https://coursemanagementapp-16bfc3cfca92.herokuapp.com/';  
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient, 
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
+    ) {
     this.handleError = this.handleError.bind(this);
+  }
+
+  get isLoggedIn(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      const user = localStorage.getItem('token');
+      return !!user;
+    }
+    return false; // Default to not logged in if not in browser environment
   }
 
   registerUser(user: any) {
@@ -31,29 +43,21 @@ export class UserService {
     );
   }
 
-  get isLoggedIn(): boolean {
-    const user = localStorage.getItem('token');
-    return !!user;
-  }
-
-  logoutUser() {
+  logoutUser(){
     localStorage.removeItem('token');
     this.router.navigate(['/home']);
   }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!'; 
-    if (error.error instanceof ErrorEvent) {
-       // A client-side or network error occurred. Handle it accordingly.
-       errorMessage = `An error occurred: ${error.error.message}`;
+    if (error.error instanceof ErrorEvent) { // A client-side or network error occurred. Handle it accordingly.
+      errorMessage = `An error occurred: ${error.error.message}`;
     } 
-    else {
-       // The backend returned an unsuccessful response code.
-       errorMessage = `Server returned code: ${error.status}, error message is: ${error.message}`;
+    else { // The backend returned an unsuccessful response code.
+      errorMessage = `Server returned code: ${error.status}, error message is: ${error.message}`;
     }
     return throwError(errorMessage);
   }
- 
 }
 
 
@@ -66,9 +70,21 @@ export class UserService {
 
 
 
+// constructor(private http: HttpClient, private router: Router) {
+//   this.handleError = this.handleError.bind(this);
+// }
+
+// get isLoggedIn(): boolean {
+//   const user = localStorage.getItem('token');
+//   return !!user;
+// }
+
+
 
 // const user = localStorage.getItem('token') as string;
 // return user !== null ? true : false;
 
+
+// private baseURL = 'https://course-mgt-app.herokuapp.com' 
 // private baseURL = 'https://course-management-app-backend.onrender.com';
 // private baseURL = 'https://coursemanagementapp-16bfc3cfca92.herokuapp.com/';

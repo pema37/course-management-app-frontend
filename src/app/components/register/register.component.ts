@@ -50,14 +50,12 @@ export class RegisterComponent implements OnInit {
   // Submit Form
   public onSubmit() {
     this.user_service.registerUser(this.registerForm.value).subscribe({
-
       next: (res: any) => {
         //response
         console.log(res);
         localStorage.setItem('token', res.token);
         this.router.navigate(['/list-course']);
       },
-
       error: (error) => {
         //handle error
         console.log(error);

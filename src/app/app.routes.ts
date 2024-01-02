@@ -1,4 +1,6 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
+
 import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
@@ -8,17 +10,18 @@ import { CourseListComponent } from './components/course-list/course-list.compon
 
 
 
-
-
-
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component:HomeComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'create-course', component: CreateCourseComponent, canActivate: [AuthGuard] },
+
+  { path: 'edit-course/:id', component: EditCourseComponent, canActivate: [AuthGuard] },
+
+  { path: 'list-course', component: CourseListComponent, canActivate: [AuthGuard] },
+
   { path: 'login', component: LoginComponent },
-  { path: 'create-course', component: CreateCourseComponent },
-  { path: 'list-course', component: CourseListComponent },
-  { path: 'edit-course/:id', component: EditCourseComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'home', component:HomeComponent },
+
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 
