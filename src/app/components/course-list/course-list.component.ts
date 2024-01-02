@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CourseService } from '../../services/course.service';
-
+import { Router } from '@angular/router';
 
 
 
@@ -20,7 +20,8 @@ export class CourseListComponent {
   courses: any;
 
   constructor(
-    private courseService: CourseService
+    private courseService: CourseService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -37,6 +38,10 @@ export class CourseListComponent {
         console.log(error);
       }
     );
+  }
+
+  editCourse(id: any) {
+    this.router.navigate([`/edit-course/${id}`]);
   }
 }
 

@@ -19,26 +19,22 @@
       <tbody>
         <tr *ngFor="let course of courses">
           <td>{{course.name}}</td>
-          <td 
-          [ngStyle]="{'color':course.isCompleted === false ? 'red' : 'green' }">
+          <td [ngStyle]="{'color':course.isCompleted === false ? 'red' : 'green' }">
             {{course.isCompleted}}
           </td>
-          <td><a href={{course.link}} target="_blank"> 
-            {{course.link}} 
-            </a>
-          </td>
+          <td><a href={{course.link}} target="_blank"> {{course.link}} </a></td>
           <td>{{course.platform}}</td>
-          <td>
-            <i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i>
+          <td><i class="fas fa-trash-alt" style="color: red; cursor: pointer;"></i>
           </td>
           <td>
-            <i class="fas fa-edit" style="color: blue; cursor: pointer"></i>
-          </td>
+            <i (click)="editCourse(course._id)" class="fas fa-edit" style="color: blue; cursor: pointer"></i></td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+
+
 
 
 
