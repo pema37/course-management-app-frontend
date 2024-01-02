@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { UserService } from '../../services/user.service';
 
 
 
@@ -18,13 +21,17 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./login.component.scss']
 })
 
+
+
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   
   constructor(
+    private router: Router,
     private formBuilder: FormBuilder,
-    private user_service: UserService
+    private user_service: UserService,
+    private toastr: ToastrService
     ) { this.loginForm = this.formBuilder.group({
       email: formBuilder.control('', [
         Validators.required,
@@ -48,13 +55,17 @@ export class LoginComponent implements OnInit {
   // Submit Form
   public onSubmit() {
     this.user_service.loginUser(this.loginForm.value).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         //response
         console.log(res);
+        localStorage.setItem('token', res.token);
+        this.router.navigate(['/list-course']);
+        this.toastr.success('Login successful');
       },
       error: (error) => {
         //handle error
         console.log(error);
+        this.toastr.error(error.error.message);
       },
       complete: () => {
         console.log('Request complete');

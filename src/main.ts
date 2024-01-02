@@ -1,14 +1,21 @@
-import { bootstrapApplication } from "@angular/platform-browser";
-import { AppComponent } from "./app/app.component";
-import { provideRouter } from "@angular/router";
-import { routes } from "./app/app.routes";
-
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpClientModule } from "@angular/common/http";
 import { provideHttpClient, withFetch, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { ReactiveFormsModule } from "@angular/forms";
 
+import { ToastrModule } from "ngx-toastr";
+import { NgxSpinner } from "ngx-spinner";
 
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { bootstrapApplication } from "@angular/platform-browser";
+import { provideRouter } from "@angular/router";
+import { importProvidersFrom } from "@angular/core";
+import { routes } from "./app/app.routes";
+import { AppComponent } from "./app/app.component";
 import { UserService } from "./app/services/user.service";
 import { CourseService } from "./app/services/course.service";
 import { TokenInterceptor } from "./app/auth/token.interceptor";
+
 
 
 

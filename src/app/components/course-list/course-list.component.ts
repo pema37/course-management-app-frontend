@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CourseService } from '../../services/course.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -15,12 +15,13 @@ import { RouterModule } from '@angular/router';
 })
 
 
-export class CourseListComponent {
+export class CourseListComponent implements OnInit {
   courses: any;
 
   constructor(
     private courseService: CourseService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -49,10 +50,12 @@ export class CourseListComponent {
         //response
         console.log(res);
         this.fetchCourses();
+        this.toastr.success(res.message);
       },
       error: (error) => {
         //handle error
         console.log(error);
+        this.toastr.error(error.error.message);
       },
       complete: () => {
         console.log('Request complete');

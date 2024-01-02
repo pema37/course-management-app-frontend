@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -25,6 +26,7 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private user_service: UserService,
     private router: Router, 
+    private toastr: ToastrService
     ) {
     this.registerForm = this.formBuilder.group({
       email: formBuilder.control( '', [
@@ -55,10 +57,12 @@ export class RegisterComponent implements OnInit {
         console.log(res);
         localStorage.setItem('token', res.token);
         this.router.navigate(['/list-course']);
+        this.toastr.success('Registration successful');
       },
       error: (error) => {
         //handle error
         console.log(error);
+        this.toastr.error(error.error.message);
       },
 
       complete: () => {

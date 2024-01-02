@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CourseService } from '../../services/course.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { error } from 'console';
 
 
 @Component({
@@ -25,7 +27,9 @@ export class EditCourseComponent implements OnInit {
     private courseService: CourseService,
     private router: Router,
     private actRoute: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService
+
   ){
     this.updateForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -47,6 +51,26 @@ export class EditCourseComponent implements OnInit {
         this.updateForm.get('platform')?.setValue(this.course.platform);
         this.updateForm.get('description')?.setValue(this.course.description);
       });
+    });
+  }
+
+  updateCourse() {
+    const { value } = this.updateForm;
+    console.log('value', this.id);
+    this.courseService.updateCourse(this.id, value).subscribe({
+      next: (res: any) => {
+        //response
+        this.router.navigate(['/list-course']);
+        this.toastr.success('Course Updated Successfully');
+      },
+      error: (error) => {
+        //handle error
+        console.log(error);
+        this.toastr.error(error.error.message);
+      },
+      complete: () => {
+        console.log('Request complete');
+      },
     });
   }
 }

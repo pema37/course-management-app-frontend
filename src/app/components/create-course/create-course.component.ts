@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CourseService } from '../../services/course.service';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+
 
 
 
@@ -18,13 +20,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 
-export class CreateCourseComponent {
+export class CreateCourseComponent implements OnInit {
   createForm!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
+    private courseService: CourseService,
     private router: Router, 
-    private courseService: CourseService
+    private toastr: ToastrService
     ) {
 
     this.createForm = this.formBuilder.group({
@@ -43,10 +46,12 @@ export class CreateCourseComponent {
       next: (res: any) => {
         // response
         this.router.navigate(['/list-course']);
+        this.toastr.success('Course Added Successful');
       },
       error: (error) => {
         // handle error
         console.log(error);
+        this.toastr.error(error.error.message);
       },
       complete: () => {
         console.log('Request complete');
