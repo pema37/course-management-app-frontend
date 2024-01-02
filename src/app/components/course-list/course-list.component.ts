@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CourseService } from '../../services/course.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { CourseService } from '../../services/course.service';
-import { Router } from '@angular/router';
 
 
 
@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
 
 
 export class CourseListComponent {
-  // Component logic goes here
   courses: any;
 
   constructor(
@@ -42,6 +41,23 @@ export class CourseListComponent {
 
   editCourse(id: any) {
     this.router.navigate([`/edit-course/${id}`]);
+  }
+
+  deleteCourse(id: any) {
+    this.courseService.deleteCourse(id).subscribe({
+      next: (res: any) => {
+        //response
+        console.log(res);
+        this.fetchCourses();
+      },
+      error: (error) => {
+        //handle error
+        console.log(error);
+      },
+      complete: () => {
+        console.log('Request complete');
+      },
+    });
   }
 }
 

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CourseService } from '../../services/course.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
@@ -23,6 +23,7 @@ export class EditCourseComponent implements OnInit {
 
   constructor(
     private courseService: CourseService,
+    private router: Router,
     private actRoute: ActivatedRoute,
     private formBuilder: FormBuilder
   ){
